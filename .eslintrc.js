@@ -19,4 +19,4 @@ module.exports = {
     'no-multiple-empty-lines': [0, { max: 100 }],
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   }
-}
+};

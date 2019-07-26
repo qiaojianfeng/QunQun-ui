@@ -1,0 +1,31 @@
+/**
+* Var scss
+**/
+
+// base color
+$yellow: #e6a23c;
+$red: #f23d4c;
+$green: #56bb36;
+$gray: #c4b5b5;
+$black: #333;
+$blue: #4bcde7;
+$white: #fff;
+
+// base style
+$font-size-base: 1em;
+
+// mask
+$mask-zindex: 100;
+$mask-background-color: rgba(0, 0, 0, 0.5);
+
+// Break-point
+$--xs: 480px !default;
+$--sm: 768px !default;
+$--md: 992px !default;
+$--lg: 1200px !default;
+$breakpoints: (
+  'xs': 'only screen and ( min-width: #{$--xs})',
+  'sm': 'only screen and ( min-width: #{$--sm})',
+  'md': 'only screen and ( min-width: #{$--md})',
+  'lg': 'only screen and ( min-width: #{$--lg})'
+) !default;
