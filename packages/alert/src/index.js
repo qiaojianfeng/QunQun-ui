@@ -1,31 +1,68 @@
 import Vue from 'vue';
 import AlertVue from './main.vue';
 
-const AlertConstructor = Vue.extend(AlertVue);
 const TYPE_LIST = ['info', 'warn', 'error', 'ok'];
 
-let instance = null;
-let seed = 1;
-let myAlert = (options = '') => {
-  // 初始化需要显示文本 因为支持直传文本
-  const message = typeof options === 'string' ? options : options.message;
-  const title = options.title;
-  let type = options.type || 'info';
-  let id = 'alert_' + seed++;
-  if (!TYPE_LIST.includes(type)) {
-    type = 'info';
-    console.warn('Alert 类型必须为以下四种之一:info、warn、error、ok');
-    return;
+let alertInstance = null;
+/**
+ * 合并参数
+ * @param {*原型链方法传入参数} props
+ */
+const mergeProps = props => {
+  if (typeof props === 'string') {
+    props = {
+      message: props,
+      type: 'info'
+    };
   }
-  instance = new AlertConstructor();
-  instance.id = id;
-  instance.vm = instance.$mount(); // 实例化vue,但未挂载
-  document.body.appendChild(instance.vm.$el); // 通过原生的DOM API,append挂载到
-  instance.type = type;
-  instance.message = message;
-  instance.title = title;
-  instance.show();
-  window.addEventListener('hashchange', instance.hide);
+  if (!TYPE_LIST.includes(props.type)) {
+    console.warn('Alert 类型必须为以下四种之一:info、warn、error、ok');
+  }
+  return Object.assign({}, props);
+};
+/**
+ * 获取实例
+ */
+const getAlertInstance = props => {
+  alertInstance = alertInstance || newInstance(props);
+  alertInstance.show();
+  return alertInstance;
 };
 
-export default myAlert;
+const newInstance = (props = {}) => {
+  const newProps = mergeProps(props);
+  const AlertConstructor = Vue.extend(AlertVue);
+  const instance = new AlertConstructor();
+  instance.type = newProps.type;
+  instance.message = newProps.message;
+  instance.title = newProps.title;
+  instance.vm = instance.$mount();
+  document.body.appendChild(instance.vm.$el);
+  window.addEventListener('hashchange', instance.hide);
+  return instance;
+};
+AlertVue.show = (props = {}) => {
+  return getAlertInstance(props);
+};
+AlertVue.info = (props = {}) => {
+  let newProps = mergeProps(props);
+  newProps.type = 'info';
+  return getAlertInstance(newProps);
+};
+AlertVue.warn = (props = {}) => {
+  let newProps = mergeProps(props);
+  newProps.type = 'warn';
+  return getAlertInstance(newProps);
+};
+AlertVue.error = (props = {}) => {
+  let newProps = mergeProps(props);
+  newProps.type = 'error';
+  return getAlertInstance(newProps);
+};
+AlertVue.ok = (props = {}) => {
+  let newProps = mergeProps(props);
+  newProps.type = 'ok';
+  return getAlertInstance(newProps);
+};
+
+export default AlertVue;

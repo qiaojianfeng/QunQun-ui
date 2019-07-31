@@ -12,69 +12,90 @@
 <script>
 export default {
   name: 'notify',
+  props: {
+    message: {
+      type: String,
+      default: ''
+    },
+    duration: {
+      type: Number,
+      default: 2500
+    }
+  },
   data() {
     return {
-      autoClose: true,
-      timeout: 0,
-      visible: false,
-      message: '',
-      duration: '',
-      zIndex: 0
-    };
+      visible: false
+    }
   },
   computed: {},
   watch: {},
   methods: {
     handleClick() {
-      this.hide();
+      this.hide()
     },
     show() {
-      this.visible = true;
+      this.visible = true
     },
     hide() {
-      this.visible = false;
+      this.visible = false
+      this.$emit('onHide')
     }
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.$nextTick(() => {
+      if (this.duration) {
+        setTimeout(() => {
+          this.hide()
+        }, this.duration)
+      }
+    })
+  },
   updated() {},
   destroyed() {}
-};
+}
 </script>
 
 <style lang="scss" scoped>
+@import '../../theme-default/style/var.scss';
+@import '../../theme-default/style/mixin.scss';
 .pop-notification {
   position: fixed;
   display: flex;
   justify-content: space-between;
   align-items: center;
   align-content: center;
-  left: 0;
   top: 0;
   width: 100%;
-  padding: rem(20);
-  background-color: #ececec;
+  padding: 0.8em;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: $white;
   box-shadow: 0 2px 4px #d4d4d4;
   z-index: 999;
-  .icon {
-    color: rgb(109, 209, 255);
-    width: 1em;
-    height: 1em;
-    font-size: 1em;
-    margin-right: rem(20);
+  box-sizing: border-box;
+  @include MQ(md) {
+    border-radius: 2em;
+    width: 30em;
+    top: 1em;
   }
   .message {
     color: #123;
-    font-size: rem(30);
+    font-size: 0.8em;
     line-height: 1.2;
-    flex: 1;
+    padding-right: 0.5em;
   }
   .close {
     color: #123;
-    font-size: 0.8em;
+    font-size: 0.7em;
     font-family: inherit;
-    margin-left: rem(20);
     line-height: 1;
+    width: 1em;
+    cursor: pointer;
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
 }
 

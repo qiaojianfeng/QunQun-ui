@@ -1,23 +1,24 @@
 <template>
   <div>
     <transition name="confirm-fade">
-      <div class="pop-confirm"
+      <div class="qun-confirm"
            v-if="visible"
            @touchmove.prevent
            @click.stop="handleClick">
-        <div class="border">
+        <div class="container">
           <div class="content">
             <div class="message">
-              <h6 class="title"
-                  v-if="isShowTitle">{{title}}</h6>
+              <h3 class="title"
+                  v-if="title">{{title}}</h3>
               <span>{{message}}</span>
+              <slot></slot>
             </div>
             <div class="btns">
               <a class="btn-cancel"
-                 @click.stop="handleCancel">{{cancelTxt}}</a>
+                 @click.stop="handleCancel">{{cancelText}}</a>
               <a class="btn-confirm"
                  v-if="useConfirm"
-                 @click.stop="handleConfirm">{{confirmTxt}}</a>
+                 @click.stop="handleConfirm">{{confirmText}}</a>
             </div>
           </div>
         </div>
@@ -28,49 +29,64 @@
 <script>
 export default {
   name: 'confirm',
+  props: {
+    title: {
+      type: String,
+      default: ''
+    },
+    message: {
+      type: String,
+      default: ''
+    },
+    cancelText: {
+      type: String,
+      default: '取消'
+    },
+    confirmText: {
+      type: String,
+      default: '确认'
+    },
+    useConfirm: {
+      type: Boolean,
+      default: true
+    }
+  },
   data() {
     return {
-      visible: false,
-      message: '',
-      title: '提醒',
-      cancelTxt: '取消',
-      confirmTxt: '确认',
-      isShowTitle: true,
-      isMaskFunc: true,
-      useConfirm: true
-    };
+      visible: false
+    }
   },
+
   methods: {
     handleClick() {
-      if (this.isMaskFunc) {
-        this.cancel();
-      }
-      this.hide();
+      this.hide()
     },
     handleCancel() {
-      this.cancel();
-      this.hide();
+      this.cancel()
+      this.hide()
     },
     handleConfirm() {
-      this.confirm();
-      this.hide();
+      this.confirm()
+      this.hide()
     },
     cancel() {
-      console.log('click cancel');
+      this.$emit('cancel', this)
     },
     confirm() {
-      console.log('click confirm');
+      this.$emit('confirm', this)
     },
     show() {
-      this.visible = true;
+      this.visible = true
     },
     hide() {
-      this.visible = false;
+      this.visible = false
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
+@import '../../theme-default/style/var.scss';
+@import '../../theme-default/style/mixin.scss';
 .confirm-fade-enter-active,
 .confirm-fade-leave-active {
   transition: opacity 0.3s;
@@ -81,7 +97,7 @@ export default {
   opacity: 0;
 }
 
-.pop-confirm {
+.qun-confirm {
   position: fixed;
   left: 0;
   right: 0;
@@ -89,32 +105,39 @@ export default {
   bottom: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 100;
-  .border {
-    width: 80%;
+  background-color: $mask-background-color;
+  z-index: $mask-zindex;
+  .container {
+    width: $message-box-width;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1;
+    @include MQ(md) {
+      width: 26em;
+    }
     .content {
       width: 100%;
-      min-height: rem(200);
-      background-color: #fff;
-      border-radius: rem(24);
+      background-color: $white;
+      border-radius: 0.4em;
       overflow: hidden;
+      box-sizing: border-box;
       .message {
-        font-size: rem(28);
-        color: #222222;
-        padding: rem(46) rem(40) rem(40);
+        min-height: 5em;
+        font-size: 1em;
+        color: $black;
         text-align: center;
-        h6 {
-          font-size: rem(36);
-          margin-bottom: rem(14);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 1em;
+        .title {
+          margin-bottom: 1em;
+          font-size: 1.2em;
         }
         span {
-          font-size: rem(28);
           line-height: 1.2;
           white-space: pre-wrap;
           width: 100%;
@@ -123,67 +146,23 @@ export default {
       }
       .btns {
         display: flex;
-        border-top: 1px solid #f2f2f2;
+        border-top: 1px solid $border-color;
         a {
           display: block;
           flex: 1;
-          height: rem(86);
-          line-height: rem(86);
-          font-size: rem(34);
-          color: #007aff;
+          height: 2.6em;
+          line-height: 2.6em;
+          font-size: 1em;
+          color: $blue;
           text-align: center;
           &:active {
-            background-color: #f2f2f2;
+            background-color: $border-color;
           }
           &:last-child {
-            /* font-weight: bold; */
-            border-left: 1px solid #f2f2f2;
+            border-left: 1px solid $border-color;
           }
         }
       }
-    }
-  }
-}
-
-.confirm {
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-  letter-spacing: 0;
-  background-color: whitesmoke;
-  z-index: 100;
-  .content {
-    width: 100%;
-    padding: rem(20) rem(40);
-    .message {
-      width: 100%;
-      text-align: center;
-      color: #123;
-      font-size: rem(30);
-      line-height: 1.2;
-    }
-  }
-
-  button {
-    display: inline-block;
-    width: 48%;
-    color: rgb(255, 255, 255);
-    font-size: 1em;
-    font-family: inherit;
-    line-height: 1;
-    padding: rem(14);
-    border: 2px solid rgb(255, 255, 255);
-    background-color: #fff;
-    box-sizing: border-box;
-    &.btn-cancel {
-      color: rgb(179, 179, 179);
-      border: 2px solid rgb(179, 179, 179);
-    }
-    &.btn-confirm {
-      color: rgb(34, 192, 100);
-      border: 2px solid rgb(34, 192, 100);
     }
   }
 }

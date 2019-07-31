@@ -5,16 +5,16 @@ import Prompt from './prompt/index';
 import Toast from './toast/index';
 import './theme-default/style/reset.scss';
 const version = require('../package.json').version;
-const components = [Alert, Confirm, Notify, Prompt, Toast];
+const components = [Alert, Confirm, Notify];
 
 const install = function(Vue) {
   if (install.installed) return;
-  components.map(component => Vue.component(component.name, component));
+  components.forEach(component => {
+    Vue.component(component.name, component);
+  });
   Vue.prototype.$alert = Alert;
   Vue.prototype.$confirm = Confirm;
   Vue.prototype.$notify = Notify;
-  Vue.prototype.$prompt = Prompt;
-  Vue.prototype.$toast = Toast;
   install.installed = true;
 };
 

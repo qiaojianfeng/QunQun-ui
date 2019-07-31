@@ -8,30 +8,48 @@
         <i class="icon-close"
            @click="handleHide">
           <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAAGz7rX1AAAAAXNSR0IArs4c6QAAAkNJREFUSA2tVbtOw0AQjCOlSAqgQsJxSJOamiChlPxGeBSAaPiDdCkpeDUQ+BNKUvEFKSIl+QGqVDYzJ49lX+4sg7CU7Hl3ZnZv7+Fau92+rdlPGIYJf/TX7eD/vSuFFO1346/kzEAYjCUnC9+8jmc3iqLXnDNutVoHAR0KxHF8CufObDb7FrBGbXTpTQ7TEDhJ3w6CIBY7SJ0ZXQExC7bb7e5Re0z9UiRoVCauoECSiyxwr9fbEsFMUy+0JGO6Z/JxMoVpI7Cx9OwPCZj1O+16vb6jdT6uMgh0lc3WzRHrusogSY/KbjQaYYBVWS2XywjlFDsjdGqBG2I4qCdJEuIlht1oiDiIXyHO5d6vEcgW8+ciEcwY7KcEvCQnWCw7kw9cqJskAGOJoBHT1WrV1zttYRHTTt0IgO4daSxbILAMBB6oTACzuRphyHbN9pwMSH82WH4nyQf2kcyiubohAm2uezEnFuWDZePRaFQ3mw8KIYG4XCaLxeIibW8Z1xvjFKH3CIBZY2h1ApbY6XRe8if1L8kc4tNms3nCE5/tqL8mKxPXdLMkclRNVkVcmhtJFPAlQ1u/gLnHTz3P2iKubb1JBHQlY4zbUT0X1mcLZ9AFwj14qds4H0fyQ97KLCLvd429Sdhz3Go86E8govBgyosZVwu/oxOKcUcCZz5+Zck2qqi6oBStuvWzJFXF7XZUScYTPwSQ0zcJf7Og+YSuZNB6RnuvuSYDJsDzkfa8b3+X82K+MfgJbvdzrhnFgeNn4ph31w+u4Z5CKRx7ygAAAABJRU5ErkJggg=="></i>
-        <h3 class="title"
-            v-if="title">{{title}}</h3>
-        <span :class="['msg',type]"
-              v-html="message"></span>
+        <slot></slot>
+        <template v-if="!isSlot">
+          <h3 class="title"
+              v-if="title">{{title}}</h3>
+          <span :class="['msg',type]"
+                v-html="message"></span>
+        </template>
       </div>
     </div>
   </transition>
 </template>
 <script>
 export default {
-  name: 'alert',
+  name: 'Alert',
+  props: {
+    type: {
+      default: 'info',
+      type: String,
+      validator: function(value) {
+        // 这个值必须匹配下列字符串中的一个
+        return ['info', 'warn', 'error', 'ok'].indexOf(value) !== -1
+      }
+    },
+    title: {
+      type: String,
+      default: ''
+    },
+    message: {
+      type: String,
+      default: ''
+    }
+  },
   data() {
     return {
-      type: 'error',
-      title: '',
-      message: '',
-      visible: false,
+      visible: true,
       timer: null,
       oldHash: window.location.hash
     }
   },
   computed: {
-    msgTypeClass() {
-      return {}
+    isSlot() {
+      return this.$slots.default
     }
   },
   methods: {
@@ -82,7 +100,8 @@ export default {
   background-color: $mask-background-color;
   z-index: $mask-zindex;
   .container {
-    width: 75%;
+    width: $message-box-width;
+    box-sizing: border-box;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -118,18 +137,18 @@ export default {
     }
     .msg {
       font-size: 1em;
-      color: $red;
+      color: $black;
       line-height: 1.2;
-      .info {
+      &.info {
         color: $black;
       }
-      .warn {
+      &.warn {
         color: $yellow;
       }
-      .error {
+      &.error {
         color: $red;
       }
-      .ok {
+      &.ok {
         color: $green;
       }
     }

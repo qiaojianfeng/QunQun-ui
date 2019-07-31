@@ -22,10 +22,12 @@ export default {
     handleClick(type) {
       switch (type) {
         case 'alert':
-          this.$alert({
+          this.$alert.show({
+            title: '通知',
             message: '壹贰叁肆伍陆柒捌玖拾壹贰叁肆伍陆柒捌玖拾壹贰叁肆伍陆柒捌玖拾壹贰叁肆伍陆柒捌玖拾',
             type: 'error'
           })
+          this.$alert.error('牛掰')
           break
         case 'prompt':
           this.$prompt({
@@ -39,21 +41,24 @@ export default {
           })
           break
         case 'notify':
-          this.$notify('壹贰叁肆伍陆柒捌玖拾 壹贰叁肆伍陆柒捌玖拾 壹贰叁肆伍陆柒捌玖拾 壹贰叁肆伍陆柒捌玖拾')
-
+          // this.$notify
+          //   .show({
+          //     message: '壹贰叁肆伍陆柒捌玖拾 壹贰叁肆伍陆柒捌玖拾 壹贰叁肆伍陆柒捌玖拾 壹贰叁肆伍陆柒捌玖拾',
+          //     duration: 0
+          //   })
+          //   .then(res => {
+          //     console.log('====================================')
+          //     console.log(res)
+          //     console.log('====================================')
+          //   })
+          this.$notify.show('1')
           break
         case 'confirm':
-          this.$confirm({
+          this.$confirm.show({
             title: '我是自定义标题',
             message: '确认创建社群【{siteName}】确认创建社群【{siteName}\n名称一经确认将无法修改',
-            confirmTxt: '好的👌',
-            cancelTxt: '不好👎',
-            confirm: function() {
-              console.log('confirm')
-            },
-            cancel: function() {
-              console.log('cancel')
-            }
+            confirmText: '好的👌',
+            cancelText: '不好👎'
           })
           break
         case 'toast':
@@ -67,7 +72,8 @@ export default {
           break
       }
     }
-  }
+  },
+  mounted() {}
 }
 </script>
 

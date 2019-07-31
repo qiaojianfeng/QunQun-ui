@@ -1,35 +1,57 @@
 import Vue from 'vue';
-import notifyVue from './main.vue';
+import NotifyVue from './main.vue';
 
-const NotifyConstructor = Vue.extend(notifyVue);
-
-let instance = null;
-let seed = 1;
-
-let myNotify = options => {
-  let message = typeof options === 'string' ? options : options.message; // 初始化需要显示文本 因为支持直传文本
-  let autoClose = options.autoClose === undefined ? true : options.autoClose;
-  let duration = options.duration || 2500; // 初始化显示时间 默认是2500
-
-  let id = 'notify_' + seed++;
-  instance = new NotifyConstructor();
-  instance.id = id;
-  instance.vm = instance.$mount(); // 实例化vue,但未挂载
-  document.body.appendChild(instance.vm.$el); // 通过原生的DOM API,append挂载到
-
-  instance.timeout = 0;
-  instance.message = message;
-  instance.duration = duration;
-  instance.autoClose = autoClose;
-
-  if (autoClose) {
-    Vue.nextTick(() => {
-      instance.timeout = setTimeout(function() {
-        instance.hide();
-      }, duration);
-    });
+let notifyInstance = null;
+let timer = null;
+/**
+ * 合并参数
+ * @param {*原型链方法传入参数} props
+ */
+const mergeProps = props => {
+  if (typeof props === 'string') {
+    props = {
+      message: props
+    };
   }
-  instance.show();
+  return Object.assign({ duration: 2500 }, props);
+};
+/**
+ * 获取实例
+ */
+const getNotifyInstance = props => {
+  const newProps = mergeProps(props);
+  notifyInstance && (notifyInstance.isBind = true);
+  notifyInstance = notifyInstance || newInstance(newProps);
+  notifyInstance.show();
+  // duration > 0 => Auto Close
+  if (newProps.duration !== 0) {
+    if (!timer) {
+      timer = setTimeout(() => {
+        notifyInstance.hide();
+        timer = null;
+      }, newProps.duration);
+    }
+  }
+  return notifyInstance;
 };
 
-export default myNotify;
+const newInstance = (props = {}) => {
+  const NotifyConstructor = Vue.extend(NotifyVue);
+  const instance = new NotifyConstructor();
+  instance.message = props.message;
+  instance.duration = props.duration;
+  instance.vm = instance.$mount();
+  document.body.appendChild(instance.vm.$el);
+  window.addEventListener('hashchange', instance.hide);
+  return instance;
+};
+NotifyVue.show = (props = {}) => {
+  return new Promise(resolve => {
+    const newNotifyInstance = getNotifyInstance(props);
+    if (!notifyInstance.isBind) {
+      newNotifyInstance.$on('onHide', res => resolve(res));
+    }
+  });
+};
+
+export default NotifyVue;
