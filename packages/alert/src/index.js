@@ -25,6 +25,8 @@ const mergeProps = props => {
  */
 const getAlertInstance = props => {
   alertInstance = alertInstance || newInstance(props);
+  alertInstance.type = props.type;
+  alertInstance.message = props.message;
   alertInstance.show();
   return alertInstance;
 };

@@ -4,7 +4,7 @@
   "description": "A Vue.js 2.0 UI Toolkit for Web",
   "main": "lib/qunqun-ui.umd.min.js",
   "keyword": "qunqun-ui QunQun vue Toolkit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "license": "MIT",
   "repository": {
@@ -34,7 +34,6 @@
     "eslint-plugin-vue": "^5.0.0",
     "node-sass": "^4.12.0",
     "sass-loader": "^7.1.0",
-    "vue-template-compiler": "^2.6.10",
-    "vuepress": "^1.0.3"
+    "vue-template-compiler": "^2.6.10"
   }
 }

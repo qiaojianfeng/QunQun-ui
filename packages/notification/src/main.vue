@@ -8,7 +8,6 @@
     </div>
   </transition>
 </template>
-
 <script>
 export default {
   name: 'notify',
@@ -59,6 +58,7 @@ export default {
 <style lang="scss" scoped>
 @import '../../theme-default/style/var.scss';
 @import '../../theme-default/style/mixin.scss';
+
 .pop-notification {
   position: fixed;
   display: flex;

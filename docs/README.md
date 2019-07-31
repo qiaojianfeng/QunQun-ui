@@ -2,7 +2,7 @@
 home: true
 heroImage: qun.png
 actionText: 快速上手 →
-actionLink: /guide/
+actionLink: /guide/started/started
 features:
   - title: 简洁至上
     details: 超简洁类promise调用模式，同时支持全局组件，按需加载，slot插值等方便易上手，。
