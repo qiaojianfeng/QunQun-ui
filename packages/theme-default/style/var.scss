@@ -3,28 +3,49 @@
 **/
 
 // base color
-$yellow: #e6a23c;
-$red: #f23d4c;
-$green: #56bb36;
-$gray: #c4b5b5;
-$black: #333;
-$blue: #4bcde7;
-$white: #fff;
+$__yellow: #e6a23c;
+$__red: #f23d4c;
+$__green: #56bb36;
+$__gray: #c4b5b5;
+$__black: #333;
+$__blue: #4bcde7;
+$__white: #fff;
+
+// status
+$__default: #fff;
+$__primary: #4bcde7;
+$__success: #56bb36;
+$__warning: #e6a23c;
+$__danger: #f23d4c;
+$__info: #909399;
+$__default_active: #f1f1f1;
+$__primary_active: #24bfde;
+$__success_active: #38a018;
+$__warning_active: #ce8921;
+$__danger_active: #c7202e;
+$__info_active: #74777b;
 
 // base style
-$font-size-base: 1em;
-$message-box-width: 75%;
-$border-color: #f2f2f2;
+$__font-size-base: 1em;
+$__button-font-color: #fff;
+$__button-font-color_default: #333;
+$__button-font-weight: 500;
+$__button-border-round_default: 0.2em;
+$__button-border-round: 1.2em;
+$__button-border-circle: 50%;
+$__message-box-width: 75%;
+$__border-color: #f2f2f2;
+
 // mask
-$mask-zindex: 100;
-$mask-background-color: rgba(0, 0, 0, 0.5);
+$__mask-zindex: 100;
+$__mask-background-color: rgba(0, 0, 0, 0.5);
 
 // Break-point
 $--xs: 480px !default;
 $--sm: 768px !default;
 $--md: 992px !default;
 $--lg: 1200px !default;
-$breakpoints: (
+$__breakpoints: (
   'xs': 'only screen and ( min-width: #{$--xs})',
   'sm': 'only screen and ( min-width: #{$--sm})',
   'md': 'only screen and ( min-width: #{$--md})',

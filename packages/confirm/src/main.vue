@@ -105,10 +105,10 @@ export default {
   bottom: 0;
   width: 100%;
   height: 100%;
-  background-color: $mask-background-color;
-  z-index: $mask-zindex;
+  background-color: $__mask-background-color;
+  z-index: $__mask-zindex;
   .container {
-    width: $message-box-width;
+    width: $__message-box-width;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -119,14 +119,14 @@ export default {
     }
     .content {
       width: 100%;
-      background-color: $white;
+      background-color: $__white;
       border-radius: 0.4em;
       overflow: hidden;
       box-sizing: border-box;
       .message {
         min-height: 5em;
         font-size: 1em;
-        color: $black;
+        color: $__black;
         text-align: center;
         display: flex;
         align-items: center;
@@ -146,20 +146,20 @@ export default {
       }
       .btns {
         display: flex;
-        border-top: 1px solid $border-color;
+        border-top: 1px solid $__border-color;
         a {
           display: block;
           flex: 1;
           height: 2.6em;
           line-height: 2.6em;
           font-size: 1em;
-          color: $blue;
+          color: $__blue;
           text-align: center;
           &:active {
-            background-color: $border-color;
+            background-color: $__border-color;
           }
           &:last-child {
-            border-left: 1px solid $border-color;
+            border-left: 1px solid $__border-color;
           }
         }
       }

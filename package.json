@@ -1,5 +1,5 @@
 {
-  "name": "qu-ui",
+  "name": "qunqun-ui",
   "author": "qiaojianfeng<845882161@qq.com>",
   "description": "A Vue.js 2.0 UI Toolkit for Web",
   "main": "lib/qunqun-ui.umd.min.js",

@@ -97,17 +97,17 @@ export default {
   bottom: 0;
   width: 100%;
   height: 100%;
-  background-color: $mask-background-color;
-  z-index: $mask-zindex;
+  background-color: $__mask-background-color;
+  z-index: $__mask-zindex;
   .container {
-    width: $message-box-width;
+    width: $__message-box-width;
     box-sizing: border-box;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 2em 1em;
-    background-color: $white;
+    background-color: $__white;
     z-index: 1;
     display: flex;
     justify-content: center;
@@ -137,19 +137,19 @@ export default {
     }
     .msg {
       font-size: 1em;
-      color: $black;
+      color: $__black;
       line-height: 1.2;
       &.info {
-        color: $black;
+        color: $__black;
       }
       &.warn {
-        color: $yellow;
+        color: $__yellow;
       }
       &.error {
-        color: $red;
+        color: $__red;
       }
       &.ok {
-        color: $green;
+        color: $__green;
       }
     }
   }

@@ -32,7 +32,11 @@ module.exports = {
         title: '🍪 组件',
         collapsable: false
       },
-      ['../guide/components/alert/alert', 'Alert']
+      ['../guide/components/alert/alert', 'Alert 警告'],
+      ['../guide/components/comfirm/comfirm', 'Comfirm 对话框'],
+      ['../guide/components/notification/notification', 'Notify 通知'],
+      ['../guide/components/toast/toast', 'Toast 消息提示'],
+      ['../guide/components/button/button', 'Button 按钮']
     ],
     markdown: {
       // markdown 插入代码时展示对应行数

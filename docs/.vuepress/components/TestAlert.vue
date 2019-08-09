@@ -1,11 +1,12 @@
 <template>
   <div class="test">
-    <button class="btn"
-            v-for="(item, index) in types"
-            :key="index"
-            @click="handleClick(item)">
+    <qun-button class="btn"
+                v-for="(item, index) in types"
+                :key="index"
+                :type="transformType(item)"
+                @click.native="handleClick(item)">
       {{item}}
-    </button>
+    </qun-button>
 
   </div>
 </template>
@@ -20,6 +21,18 @@ export default {
   methods: {
     handleClick(type) {
       this.$alert[type](`这是一个${type}类型信息框`)
+    },
+    transformType(type) {
+      switch (type) {
+        case 'info':
+          return 'info'
+        case 'warn':
+          return 'warning'
+        case 'error':
+          return 'danger'
+        case 'ok':
+          return 'success'
+      }
     }
   }
 }
@@ -27,14 +40,8 @@ export default {
 
 <style lang="scss" scoped>
 .test {
-  padding: 40px;
   .btn {
-    padding: 5px 20px;
-    background: #4bcde7;
-    border-radius: 10px;
-    margin-right: 20px;
-    color: #fff;
-    cursor: pointer;
+    margin: 10px;
   }
 }
 </style>

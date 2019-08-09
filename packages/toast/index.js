@@ -4,6 +4,7 @@ import Toast from './src/index';
 Toast.install = function(Vue) {
   if (this.installed) return;
   Vue.component(Toast.name, Toast);
+  Vue.prototype.$toast = Toast;
   this.installed = true;
 };
 

@@ -70,7 +70,7 @@ export default {
   padding: 0.8em;
   left: 50%;
   transform: translateX(-50%);
-  background-color: $white;
+  background-color: $__white;
   box-shadow: 0 2px 4px #d4d4d4;
   z-index: 999;
   box-sizing: border-box;

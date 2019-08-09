@@ -6,11 +6,32 @@
 * 通用媒体查询配置
 */
 @mixin MQ($breakpoint) {
-  $query: map-get($breakpoints, $breakpoint);
+  $query: map-get($__breakpoints, $breakpoint);
   @if not $query {
     @error 'No value found for `#{$breakpoint}`. Please make sure it is defined in `$breakpoints` map.';
   }
   @media #{if(type-of($query) == 'string', unquote($query), inspect($query))} {
     @content;
+  }
+}
+
+/*
+* 配置不同颜色类型对应得active
+*/
+@mixin activeBgColor($t) {
+  @each $key,
+    $type
+      in (
+        default: $__default_active,
+        primary: $__primary_active,
+        success: $__success_active,
+        warning: $__warning_active,
+        danger: $__danger_active,
+        info: $__info_active
+      )
+  {
+    @if $t == $key {
+      background-color: $type;
+    }
   }
 }

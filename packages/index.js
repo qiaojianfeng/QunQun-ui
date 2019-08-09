@@ -1,11 +1,11 @@
 import Alert from './alert/index';
 import Confirm from './confirm/src';
 import Notify from './notification/index';
-import Prompt from './prompt/index';
 import Toast from './toast/index';
+import Button from './button/index';
 import './theme-default/style/reset.scss';
 const version = require('../package.json').version;
-const components = [Alert, Confirm, Notify];
+const components = [Alert, Confirm, Notify, Toast, Button];
 
 const install = function(Vue) {
   if (install.installed) return;
@@ -15,6 +15,7 @@ const install = function(Vue) {
   Vue.prototype.$alert = Alert;
   Vue.prototype.$confirm = Confirm;
   Vue.prototype.$notify = Notify;
+  Vue.prototype.$toast = Toast;
   install.installed = true;
 };
 
@@ -23,7 +24,7 @@ export default {
   Alert,
   Confirm,
   Notify,
-  Prompt,
   Toast,
+  Button,
   install
 };

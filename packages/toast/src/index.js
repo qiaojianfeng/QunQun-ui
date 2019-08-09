@@ -1,38 +1,59 @@
 import Vue from 'vue';
-import toastVue from './main.vue';
+import ToastVue from './main.vue';
 
-const ToastConstructor = Vue.extend(toastVue);
+const BASE_DATA = ToastVue.data();
+let notifyInstance = null;
+let timer = null;
 
-let instance = null;
-let seed = 1;
-
-let myToast = options => {
-  let message = typeof options === 'string' ? options : options.message; // 初始化需要显示文本 因为支持直传文本
-  let autoClose = options.autoClose === undefined ? true : options.autoClose; // 初始化显示时间
-  let duration = options.duration || 2000; // 初始化显示时间 默认是2000
-  let callBack = options.callBack; // 关闭回调
-  let style = options.style || 'A'; // toast 样式 A：保留之前正方形样式 B：长方形样式
-
-  let id = 'toast_' + seed++;
-  instance = new ToastConstructor();
-  instance.id = id;
-  instance.vm = instance.$mount(); // 实例化vue,但未挂载
-  document.body.appendChild(instance.vm.$el); // 通过原生的DOM API,append挂载到
-
-  instance.timeout = 0;
-  instance.message = message;
-  instance.duration = duration;
-  instance.autoClose = autoClose;
-  instance.style = style;
-  if (autoClose) {
-    Vue.nextTick(() => {
-      instance.timeout = setTimeout(function() {
-        callBack();
-        instance.hide();
-      }, duration);
-    });
+/**
+ * 合并参数
+ * @param {*原型链方法传入参数} props
+ */
+const mergeProps = props => {
+  if (typeof props === 'string') {
+    props = {
+      message: props
+    };
   }
-  instance.show();
+  return Object.assign({ duration: BASE_DATA.duration }, props);
+};
+/**
+ * 获取实例
+ */
+const getToastInstance = props => {
+  const newProps = mergeProps(props);
+  notifyInstance && (notifyInstance.isBind = true);
+  notifyInstance = notifyInstance || newInstance(newProps);
+  notifyInstance.show();
+  // duration > 0 => Auto Close
+  if (newProps.duration !== 0) {
+    if (!timer) {
+      timer = setTimeout(() => {
+        notifyInstance.hide();
+        timer = null;
+      }, newProps.duration);
+    }
+  }
+  return notifyInstance;
 };
 
-export default myToast;
+const newInstance = (props = {}) => {
+  const ToastConstructor = Vue.extend(ToastVue);
+  const instance = new ToastConstructor();
+  instance.message = props.message;
+  instance.duration = props.duration;
+  instance.vm = instance.$mount();
+  document.body.appendChild(instance.vm.$el);
+  window.addEventListener('hashchange', instance.hide);
+  return instance;
+};
+ToastVue.show = (props = {}) => {
+  return new Promise(resolve => {
+    const newToastInstance = getToastInstance(props);
+    if (!notifyInstance.isBind) {
+      newToastInstance.$on('onHide', res => resolve(res));
+    }
+  });
+};
+
+export default ToastVue;
