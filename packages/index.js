@@ -3,9 +3,10 @@ import Confirm from './confirm/src';
 import Notify from './notification/index';
 import Toast from './toast/index';
 import Button from './button/index';
+import Card from './card/index';
 import './theme-default/style/reset.scss';
 const version = require('../package.json').version;
-const components = [Alert, Confirm, Notify, Toast, Button];
+const components = [Alert, Confirm, Notify, Toast, Button, Card];
 
 const install = function(Vue) {
   if (install.installed) return;
@@ -26,5 +27,6 @@ export default {
   Notify,
   Toast,
   Button,
+  Card,
   install
 };

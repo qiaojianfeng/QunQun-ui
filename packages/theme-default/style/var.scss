@@ -26,6 +26,7 @@ $__danger_active: #c7202e;
 $__info_active: #74777b;
 
 // base style
+$__padding: 16px;
 $__font-size-base: 1em;
 $__button-font-color: #fff;
 $__button-font-color_default: #333;
@@ -36,11 +37,14 @@ $__button-border-circle: 50%;
 $__message-box-width: 75%;
 $__border-color: #f2f2f2;
 
+// card
+$__card-background-color: #fff;
+$__card-border-radius: 4px;
+$__card-border: 1px solid #ebeef5;
 // mask
 $__mask-zindex: 100;
 $__mask-background-color: rgba(0, 0, 0, 0.5);
 
-// Break-point
 $--xs: 480px !default;
 $--sm: 768px !default;
 $--md: 992px !default;
